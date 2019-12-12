@@ -1,0 +1,26 @@
+{
+    "name": "tkm/test-root",
+    "description": "",
+    "type": "library",
+    "minimum-stability": "dev",
+    "require": {
+        "tolkam/composer-custom-path": "*"
+    },
+    "extra": {
+        "custom-types": [
+            "my-custom-template",
+            "my-custom-plugin"
+        ],
+        "custom-paths": {
+            "plugins/by-package-name/{$name}": [
+                "tkm/test-sub"
+            ],
+            "plugins/by-type/{$type}/{$name}": [
+                "type:my-custom-template"
+            ],
+            "plugins/by-vendor/{$vendor}/{$name}": [
+                "vendor:tkm"
+            ]
+        }
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "name": "tkm/test-sub",
+    "description": "",
+    "type": "my-custom-template",
+    "minimum-stability": "dev",
+    "require": {},
+    "extra": {
+        "custom-name": "myCustomTemplateName"
+    }
+}
