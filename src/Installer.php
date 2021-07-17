@@ -14,12 +14,12 @@ class Installer extends LibraryInstaller
     private const CHILD_CUSTOM_NAME_KEY = 'custom-name';
     
     /**
-     * @var array
+     * @var array|null
      */
     protected ?array $customTypes = null;
     
     /**
-     * @var array
+     * @var array|null
      */
     protected ?array $customPaths = null;
     
@@ -44,7 +44,7 @@ class Installer extends LibraryInstaller
     /**
      * {@inheritDoc}
      */
-    public function getInstallPath(PackageInterface $childPackage)
+    public function getInstallPath(PackageInterface $package): string
     {
         // we have custom types but no paths found
         if (empty($this->customPaths)) {
@@ -54,13 +54,14 @@ class Installer extends LibraryInstaller
             ));
         }
         
-        $prettyName = $childPackage->getPrettyName();
-        $type = $childPackage->getType();
+        $prettyName = $package->getPrettyName();
+        $type = $package->getType();
         
         // get placeholders
-        if (strpos($prettyName, '/') !== false) {
+        if (str_contains($prettyName, '/')) {
             [$vendor, $name] = explode('/', $prettyName);
-        } else {
+        }
+        else {
             $vendor = '';
             $name = $prettyName;
         }
@@ -68,7 +69,7 @@ class Installer extends LibraryInstaller
         $placeholders = compact('name', 'vendor', 'type');
         
         // custom child package name
-        $extra = $childPackage->getExtra();
+        $extra = $package->getExtra();
         if ($customName = $extra[self::CHILD_CUSTOM_NAME_KEY] ?? null) {
             $placeholders['name'] = (string) $customName;
         }
@@ -82,7 +83,7 @@ class Installer extends LibraryInstaller
         
         // no path resolved - fallback to default
         if ($path === false) {
-            return parent::getInstallPath($childPackage);
+            return parent::getInstallPath($package);
         }
         
         return $this->replacePathPlaceholders($path, $placeholders);
@@ -128,14 +129,14 @@ class Installer extends LibraryInstaller
      * @param string $type
      * @param string $vendor
      *
-     * @return string
+     * @return bool|string
      */
     protected function resolveCustomPath(
         array $paths,
         string $name,
         string $type,
         string $vendor = ''
-    ) {
+    ): bool|string {
         foreach ($paths as $path => $names) {
             if (
                 in_array($name, $names)
@@ -157,9 +158,9 @@ class Installer extends LibraryInstaller
      *
      * @return string
      */
-    protected function replacePathPlaceholders(string $path, array $placeholders = [])
+    protected function replacePathPlaceholders(string $path, array $placeholders = []): string
     {
-        if (strpos($path, '{') !== false) {
+        if (str_contains($path, '{')) {
             
             extract($placeholders);
             preg_match_all('~\{\$([A-Za-z0-9_]*)\}~i', $path, $matches);
