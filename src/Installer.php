@@ -35,6 +35,8 @@ class Installer extends LibraryInstaller
     
     /**
      * {@inheritDoc}
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function supports($packageType): bool
     {

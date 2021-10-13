@@ -3,16 +3,20 @@
     "description": "Allows installing composer packages into custom locations",
     "type": "composer-plugin",
     "license": "proprietary",
+    "authors": [
+        {
+            "name": "Kanstantsin Kulesh",
+            "email": "kk@tolkam.com",
+            "homepage": "https://www.tolkam.com"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Tolkam\\Composer\\CustomPath\\": "src"
         }
     },
     "extra": {
-        "class": "Tolkam\\Composer\\CustomPath\\Plugin",
-        "branch-alias": {
-            "dev-master": "2.0-dev"
-        }
+        "class": "Tolkam\\Composer\\CustomPath\\Plugin"
     },
     "require": {
         "php": ">=8.0",
